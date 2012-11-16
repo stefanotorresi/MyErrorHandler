@@ -1,0 +1,6 @@
+<span class="error plain">
+    <?=$this->message?>
+    <?php if($this->stack_trace) : ?>
+    <pre><?=$this->stack_trace?></pre>
+    <?php endif; ?>
+</span>
