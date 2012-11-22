@@ -9,8 +9,8 @@ namespace MyErrorHandler\Exception;
 
 interface MyExceptionInterface
 {
-    public function getOutputFormat();
-    public function setOutputFormat($output_format);
+    public function getRenderer();
+    public function setRenderer($output_format);
     public function getHttpCode();
     public function setHttpCode($http_code);
 }

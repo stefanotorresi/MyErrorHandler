@@ -9,12 +9,10 @@ namespace MyErrorHandler\Exception;
 
 use Exception;
 use InvalidArgumentException;
+use MyErrorHandler\Module as MyErrorHandler;
 
 class MyException extends Exception implements MyExceptionInterface
 {
-    
-    const OUTPUT_HTML = 'html';
-    const OUTPUT_JSON = 'json';
     
     /**
      *
@@ -26,20 +24,20 @@ class MyException extends Exception implements MyExceptionInterface
      *
      * @var string
      */
-    protected $output_format;
+    protected $renderer;
 
     /**
      * 
      * @param strnig    $message
      * @param int       $http_code
-     * @param string    $output_format
+     * @param string    $renderer
      * @param int       $code
      * @param mixed     $previous
      */
-    public function __construct($message, $http_code = 500, $output_format = self::OUTPUT_HTML)
+    public function __construct($message = '', $http_code = 500, $renderer = MyErrorHandler::RENDERER_HTML)
     {
         $this->setHttpCode($http_code);
-        $this->setOutputFormat($output_format);
+        $this->setRenderer($renderer);
         
         parent::__construct($message);
     }
@@ -48,24 +46,24 @@ class MyException extends Exception implements MyExceptionInterface
      * 
      * @return int
      */
-    public function getOutputFormat()
+    public function getRenderer()
     {
-        return $this->output_format;
+        return $this->renderer;
     }
     
     /**
      * 
-     * @param string $output_format
+     * @param string $renderer
      * @return MyException
      * @throws InvalidArgumentException
      */
-    public function setOutputFormat($output_format)
+    public function setRenderer($renderer)
     {
-        if ($output_format != self::OUTPUT_HTML && $output_format != self::OUTPUT_JSON) {
+        if ($renderer != MyErrorHandler::RENDERER_HTML && $renderer != MyErrorHandler::RENDERER_JSON) {
             throw new InvalidArgumentException();
         }
         
-        $this->output_format = $output_format;
+        $this->renderer = $renderer;
         
         return $this;
     }
@@ -86,7 +84,7 @@ class MyException extends Exception implements MyExceptionInterface
      */
     public function setHttpCode($http_code)
     {
-        $this->http_code = intval($http_code);
+        $this->http_code = (int) $http_code;
         
         return $this;
     }
@@ -95,18 +93,18 @@ class MyException extends Exception implements MyExceptionInterface
      * 
      * @return MyException
      */
-    public function setJsonOutput()
+    public function setJsonRenderer()
     {
-        return $this->setOutputFormat(self::OUTPUT_JSON);;
+        return $this->setRenderer(MyErrorHandler::RENDERER_JSON);
     }
     
     /**
      * 
      * @return MyException
      */
-    public function setHtmlOutput()
+    public function setHtmlRenderer()
     {
-        return $this->setOutputFormat(self::OUTPUT_HTML);;
+        return $this->setRenderer(MyErrorHandler::RENDERER_HTML);;
     }
     
 }

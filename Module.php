@@ -11,13 +11,18 @@ use Zend\Mvc\MvcEvent;
 
 class Module
 {    
+    
+    const RENDERER_HTML = 'html';
+    const RENDERER_JSON = 'json';
+    
     public function onBootstrap(MvcEvent $e)
     {
         $events = $e->getApplication()->getEventManager();
         $services  = $e->getApplication()->getServiceManager();
 
         // Attach the new strategy
-        $services->get('MyExceptionStrategy')->attach($events);
+        $services->get('MyErrorHandler\Strategy\XHRExceptionStrategy')->attach($events);
+        $services->get('MyErrorHandler\Strategy\XHRNotFoundStrategy')->attach($events);
     }
 
     public function getAutoloaderConfig()

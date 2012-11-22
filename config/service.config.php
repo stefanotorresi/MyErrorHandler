@@ -4,10 +4,10 @@ namespace MyErrorHandler;
 
 return array(
     'factories' => array(
-        'MyExceptionStrategy' => function ($services) {
+        'MyErrorHandler\Strategy\XHRExceptionStrategy' => function ($services) {
             $config   = $services->get('config');
 
-            $listener = new Exception\MyExceptionStrategy();
+            $listener = new Strategy\XHRExceptionStrategy();
             if (isset($config['view_manager']['display_exceptions'])) {
                 $listener->setDisplayExceptions($config['view_manager']['display_exceptions']);
             }
@@ -16,4 +16,7 @@ return array(
         },
         'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
     ),
+    'invokables' => array(
+        'MyErrorHandler\Strategy\XHRNotFoundStrategy' => 'MyErrorHandler\Strategy\XHRNotFoundStrategy',
+    )
 );
