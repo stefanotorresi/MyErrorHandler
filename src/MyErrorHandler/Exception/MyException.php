@@ -12,8 +12,7 @@ use InvalidArgumentException;
 use MyErrorHandler\Module as MyErrorHandler;
 
 class MyException extends Exception implements MyExceptionInterface
-{
-    
+{    
     /**
      *
      * @var int

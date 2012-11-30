@@ -9,10 +9,10 @@ namespace MyErrorHandler\Exception;
 
 use MyErrorHandler\Module as MyErrorHandler;
 
-class ServiceUnavailableException extends MyException
+class BadRequestException extends MyException
 {
-    public function __construct($message = 'Service Unavailable', 
-            $http_code = 503, $output_format = MyErrorHandler::RENDERER_HTML)
+    public function __construct($message = 'Bad Request', 
+            $http_code = 400, $output_format = MyErrorHandler::RENDERER_HTML)
     {
         parent::__construct($message, $http_code, $output_format);
     }

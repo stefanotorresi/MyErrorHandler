@@ -1,6 +1,14 @@
 <span class="error plain">
     <?=$this->message?>
     <?php if($this->stack_trace) : ?>
-    <pre><?=$this->stack_trace?></pre>
+    
+    <?php $uniqid = uniqid(); ?>
+    <br>
+    <a href="#st-<?=$uniqid?>" class="stack-trace">Stack trace</a>
+    <div class="hidden">
+        <pre id="st-<?=$uniqid?>" style="font-size: 11px;"><?=$this->stack_trace?></pre>
+    </div>
+    <script>$(function(){ $("a.stack-trace").fancybox(); });</script>
+    
     <?php endif; ?>
 </span>

@@ -10,6 +10,7 @@ namespace MyErrorHandler\Strategy;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\RouteNotFoundStrategy;
+use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use MyErrorHandler\Module as MyErrorHandler;
