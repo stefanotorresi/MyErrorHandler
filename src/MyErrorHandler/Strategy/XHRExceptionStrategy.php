@@ -14,17 +14,16 @@ use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use MyErrorHandler\Module as MyErrorHandler;
-use MyErrorHandler\Exception\MyException;
 use MyErrorHandler\Exception\MyExceptionInterface;
 
 class XHRExceptionStrategy extends ExceptionStrategy
-{    
+{
     /**
-     * 
+     *
      * @param MvcEvent $e
      */
     public function prepareExceptionViewModel(MvcEvent $e)
-    {           
+    {
         // Do nothing if no error in the event
         $error      = $e->getError();
         if (empty($error)) {
@@ -36,25 +35,25 @@ class XHRExceptionStrategy extends ExceptionStrategy
         if ($result instanceof ResponseInterface) {
             return;
         }
-        
+
         $request = $e->getRequest();
         if (!$request->isXmlHttpRequest()) {
             // Only handle XHR requests
             return;
         }
-        
+
         $exception = $e->getParam('exception');
-        
-        if ( $exception instanceof MyExceptionInterface ) {
+
+        if ($exception instanceof MyExceptionInterface) {
             $status_code = $exception->getHttpCode();
             $renderer = $exception->getRenderer();
         } else {
             $status_code = 500;
             $renderer = MyErrorHandler::RENDERER_HTML;
         }
-        
+
         $services = $e->getApplication()->getServiceManager();
-        $translator = $services->get('translator');            
+        $translator = $services->get('translator');
         $message = $translator->translate($exception->getMessage(), 'exceptions');
 
         switch ($renderer) {
@@ -94,5 +93,5 @@ class XHRExceptionStrategy extends ExceptionStrategy
 
         $e->setResult($model);
     }
-    
+
 }

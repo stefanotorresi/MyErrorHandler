@@ -14,4 +14,3 @@ interface MyExceptionInterface
     public function getHttpCode();
     public function setHttpCode($http_code);
 }
-

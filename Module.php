@@ -10,11 +10,11 @@ namespace MyErrorHandler;
 use Zend\Mvc\MvcEvent;
 
 class Module
-{    
-    
+{
+
     const RENDERER_HTML = 'html';
     const RENDERER_JSON = 'json';
-    
+
     public function onBootstrap(MvcEvent $e)
     {
         $events = $e->getApplication()->getEventManager();
@@ -29,12 +29,12 @@ class Module
     {
         return include __DIR__ . '/config/autoloader.config.php';
     }
-    
+
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
-    
+
     public function getServiceConfig()
     {
         return include __DIR__ . '/config/service.config.php';

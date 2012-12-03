@@ -11,10 +11,9 @@ use MyErrorHandler\Module as MyErrorHandler;
 
 class BadRequestException extends MyException
 {
-    public function __construct($message = 'Bad Request', 
+    public function __construct($message = 'Bad Request',
             $http_code = 400, $output_format = MyErrorHandler::RENDERER_HTML)
     {
         parent::__construct($message, $http_code, $output_format);
     }
 }
-
