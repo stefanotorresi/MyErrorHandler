@@ -24,10 +24,14 @@ class XHRNotFoundStrategy extends RouteNotFoundStrategy
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'prepareNotFoundViewModel'), -99);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'prepareNotFoundViewModel'), -99);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'setViewModelErrorFlag'), -100);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'setViewModelErrorFlag'), -100);
+        $this->listeners[] = $events->attach(
+                MvcEvent::EVENT_DISPATCH, array($this, 'prepareNotFoundViewModel'), -99);
+        $this->listeners[] = $events->attach(
+                MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'prepareNotFoundViewModel'), -99);
+        $this->listeners[] = $events->attach(
+                MvcEvent::EVENT_DISPATCH, array($this, 'setViewModelErrorFlag'), -100);
+        $this->listeners[] = $events->attach(
+                MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'setViewModelErrorFlag'), -100);
     }
     
     /**
@@ -79,7 +83,7 @@ class XHRNotFoundStrategy extends RouteNotFoundStrategy
             
         $services = $e->getApplication()->getServiceManager();
         $translator = $services->get('translator');            
-        $message = $translator->translate('Page not found','exceptions');
+        $message = $translator->translate('Page not found', 'exceptions');
 
         $accept = $request->getHeader('Accept');
         

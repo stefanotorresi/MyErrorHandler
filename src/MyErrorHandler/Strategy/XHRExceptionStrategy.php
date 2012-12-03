@@ -55,7 +55,7 @@ class XHRExceptionStrategy extends ExceptionStrategy
         
         $services = $e->getApplication()->getServiceManager();
         $translator = $services->get('translator');            
-        $message = $translator->translate($exception->getMessage(),'exceptions');
+        $message = $translator->translate($exception->getMessage(), 'exceptions');
 
         switch ($renderer) {
             case MyErrorHandler::RENDERER_JSON :
