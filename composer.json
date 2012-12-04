@@ -1,0 +1,30 @@
+{
+    "name": "stefanotorresi/MyErrorHandler",
+    "description": "A ZF2 module that introduces custom exceptions and error strategies for XHR requests",
+    "type": "library",
+    "keywords": [
+        "zf2",
+        "zend",
+        "module"
+    ],
+    "homepage": "https://github.com/stefanotorresi/MyErrorHandler",
+    "authors": [
+        {
+            "name": "Stefano Torresi",
+            "email": "webdev@stefanotorresi.it",
+            "homepage": "http://stefanotorresi.it"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "MyErrorHandler": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}
