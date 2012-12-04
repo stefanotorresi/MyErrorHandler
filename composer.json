@@ -1,5 +1,5 @@
 {
-    "name": "stefanotorresi/MyErrorHandler",
+    "name": "stefanotorresi/my-error-handler",
     "description": "A ZF2 module that introduces custom exceptions and error strategies for XHR requests",
     "type": "library",
     "keywords": [
