@@ -8,6 +8,7 @@
 namespace MyErrorHandler\Strategy;
 
 use Zend\Http\Response as HttpResponse;
+use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\ExceptionStrategy;
 use Zend\Stdlib\ResponseInterface;
@@ -40,6 +41,14 @@ class XHRExceptionStrategy extends ExceptionStrategy
         if (!$request->isXmlHttpRequest()) {
             // Only handle XHR requests
             return;
+        }
+
+        switch ($error) {
+            case Application::ERROR_CONTROLLER_NOT_FOUND:
+            case Application::ERROR_CONTROLLER_INVALID:
+            case Application::ERROR_ROUTER_NO_MATCH:
+                // Specifically not handling these
+                return;
         }
 
         $exception = $e->getParam('exception');
