@@ -76,15 +76,6 @@ class XHRNotFoundStrategy extends RouteNotFoundStrategy
         }
 
         $request = $e->getRequest();
-        if (!$request->isXmlHttpRequest()) {
-            // Only handle XHR requests
-            return;
-        }
-
-        $services = $e->getApplication()->getServiceManager();
-        $translator = $services->get('translator');
-        $message = $translator->translate('Page not found', 'exceptions');
-
         $accept = $request->getHeader('Accept');
 
         if (0 === strpos($accept->getFieldValue(), 'application/json')) {
@@ -92,6 +83,15 @@ class XHRNotFoundStrategy extends RouteNotFoundStrategy
         } else {
             $renderer = MyErrorHandler::RENDERER_HTML;
         }
+        
+        if ($renderer == MyErrorHandler::RENDERER_HTML && !$request->isXmlHttpRequest()) {
+            // Only handle XHR requests if output is HTML
+            return;
+        }
+
+        $services = $e->getApplication()->getServiceManager();
+        $translator = $services->get('translator');
+        $message = $translator->translate('Page not found', 'exceptions');
 
         switch ($renderer) {
             case MyErrorHandler::RENDERER_JSON :

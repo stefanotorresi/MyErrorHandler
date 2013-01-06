@@ -37,12 +37,6 @@ class XHRExceptionStrategy extends ExceptionStrategy
             return;
         }
 
-        $request = $e->getRequest();
-        if (!$request->isXmlHttpRequest()) {
-            // Only handle XHR requests
-            return;
-        }
-
         switch ($error) {
             case Application::ERROR_CONTROLLER_NOT_FOUND:
             case Application::ERROR_CONTROLLER_INVALID:
@@ -59,6 +53,12 @@ class XHRExceptionStrategy extends ExceptionStrategy
         } else {
             $status_code = 500;
             $renderer = MyErrorHandler::RENDERER_HTML;
+        }
+
+        $request = $e->getRequest();
+        if ($renderer == MyErrorHandler::RENDERER_HTML && !$request->isXmlHttpRequest()) {
+            // Only handle XHR requests if output is HTML
+            return;
         }
 
         $services = $e->getApplication()->getServiceManager();
