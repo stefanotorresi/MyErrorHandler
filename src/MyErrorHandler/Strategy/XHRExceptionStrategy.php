@@ -52,10 +52,20 @@ class XHRExceptionStrategy extends ExceptionStrategy
             $renderer = $exception->getRenderer();
         } else {
             $status_code = 500;
-            $renderer = MyErrorHandler::RENDERER_HTML;
         }
-
+        
         $request = $e->getRequest();
+        
+        if (!isset($renderer)) {
+            $accept = $request->getHeader('Accept');
+
+            if (0 === strpos($accept->getFieldValue(), 'application/json')) {
+                $renderer = MyErrorHandler::RENDERER_JSON;
+            } else {
+                $renderer = MyErrorHandler::RENDERER_HTML;
+            }
+        }        
+        
         if ($renderer == MyErrorHandler::RENDERER_HTML && !$request->isXmlHttpRequest()) {
             // Only handle XHR requests if output is HTML
             return;

@@ -33,10 +33,13 @@ class MyException extends Exception implements MyExceptionInterface
      * @param int    $code
      * @param mixed  $previous
      */
-    public function __construct($message = '', $http_code = 500, $renderer = MyErrorHandler::RENDERER_HTML)
+    public function __construct($message = '', $http_code = 500, $renderer = null)
     {
         $this->setHttpCode($http_code);
-        $this->setRenderer($renderer);
+        
+        if ($renderer) {
+            $this->setRenderer($renderer);
+        }
 
         parent::__construct($message);
     }
