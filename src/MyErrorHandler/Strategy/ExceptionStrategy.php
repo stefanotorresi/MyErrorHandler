@@ -10,14 +10,14 @@ namespace MyErrorHandler\Strategy;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\View\Http\ExceptionStrategy;
+use Zend\Mvc\View\Http\ExceptionStrategy as ZendExceptionStrategy;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use MyErrorHandler\Module as MyErrorHandler;
-use MyErrorHandler\Exception\MyExceptionInterface;
+use MyErrorHandler\Exception\ExceptionInterface;
 
-class XHRExceptionStrategy extends ExceptionStrategy
+class ExceptionStrategy extends ZendExceptionStrategy
 {
     /**
      *
@@ -47,7 +47,7 @@ class XHRExceptionStrategy extends ExceptionStrategy
 
         $exception = $e->getParam('exception');
 
-        if ($exception instanceof MyExceptionInterface) {
+        if ($exception instanceof ExceptionInterface) {
             $status_code = $exception->getHttpCode();
             $renderer = $exception->getRenderer();
         } else {

@@ -15,7 +15,7 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use MyErrorHandler\Module as MyErrorHandler;
 
-class XHRNotFoundStrategy extends RouteNotFoundStrategy
+class NotFoundStrategy extends RouteNotFoundStrategy
 {
 
     /**

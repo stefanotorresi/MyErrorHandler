@@ -21,8 +21,8 @@ class Module
         $services  = $e->getApplication()->getServiceManager();
 
         // Attach the new strategy
-        $services->get('MyErrorHandler\Strategy\XHRExceptionStrategy')->attach($events);
-        $services->get('MyErrorHandler\Strategy\XHRNotFoundStrategy')->attach($events);
+        $services->get('MyErrorHandler\Strategy\ExceptionStrategy')->attach($events);
+        $services->get('MyErrorHandler\Strategy\NotFoundStrategy')->attach($events);
     }
 
     public function getAutoloaderConfig()

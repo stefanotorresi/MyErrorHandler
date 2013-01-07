@@ -7,7 +7,7 @@
 
 namespace MyErrorHandler\Exception;
 
-interface MyExceptionInterface
+interface ExceptionInterface
 {
     public function getRenderer();
     public function setRenderer($output_format);

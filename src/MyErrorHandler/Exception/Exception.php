@@ -7,17 +7,17 @@
 
 namespace MyErrorHandler\Exception;
 
-use Exception;
+use Exception as SplException;
 use InvalidArgumentException;
 use MyErrorHandler\Module as MyErrorHandler;
 
-class MyException extends Exception implements MyExceptionInterface
+class Exception extends SplException implements ExceptionInterface
 {
     /**
      *
      * @var int
      */
-    protected $http_code;
+    protected $httpCode;
 
     /**
      *
@@ -28,14 +28,14 @@ class MyException extends Exception implements MyExceptionInterface
     /**
      *
      * @param strnig $message
-     * @param int    $http_code
+     * @param int    $httpCode
      * @param string $renderer
      * @param int    $code
      * @param mixed  $previous
      */
-    public function __construct($message = '', $http_code = 500, $renderer = null)
+    public function __construct($message = '', $httpCode = 500, $renderer = null)
     {
-        $this->setHttpCode($http_code);
+        $this->setHttpCode($httpCode);
         
         if ($renderer) {
             $this->setRenderer($renderer);
@@ -56,7 +56,7 @@ class MyException extends Exception implements MyExceptionInterface
     /**
      *
      * @param  string                   $renderer
-     * @return MyException
+     * @return Exception
      * @throws InvalidArgumentException
      */
     public function setRenderer($renderer)
@@ -76,24 +76,24 @@ class MyException extends Exception implements MyExceptionInterface
      */
     public function getHttpCode()
     {
-        return $this->http_code;
+        return $this->httpCode;
     }
 
     /**
      *
-     * @param  int         $http_code
-     * @return MyException
+     * @param  int         $httpCode
+     * @return Exception
      */
-    public function setHttpCode($http_code)
+    public function setHttpCode($httpCode)
     {
-        $this->http_code = (int) $http_code;
+        $this->httpCode = (int) $httpCode;
 
         return $this;
     }
 
     /**
      *
-     * @return MyException
+     * @return Exception
      */
     public function setJsonRenderer()
     {
@@ -102,7 +102,7 @@ class MyException extends Exception implements MyExceptionInterface
 
     /**
      *
-     * @return MyException
+     * @return Exception
      */
     public function setHtmlRenderer()
     {
