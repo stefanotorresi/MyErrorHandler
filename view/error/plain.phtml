@@ -8,7 +8,7 @@
     <div class="hidden">
         <pre id="st-<?=$uniqid?>" style="font-size: 11px;"><?=$this->stack_trace?></pre>
     </div>
-    <script>$(function(){ $("a.stack-trace").fancybox(); });</script>
+    <script>$(function(){ if($.isFunction($.fn.fancybox)) $("a.stack-trace").fancybox(); });</script>
     
     <?php endif; ?>
 </span>
