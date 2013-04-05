@@ -83,7 +83,7 @@ class NotFoundStrategy extends RouteNotFoundStrategy
         } else {
             $renderer = MyErrorHandler::RENDERER_HTML;
         }
-        
+
         if ($renderer == MyErrorHandler::RENDERER_HTML && !$request->isXmlHttpRequest()) {
             // Only handle XHR requests if output is HTML
             return;
@@ -91,7 +91,7 @@ class NotFoundStrategy extends RouteNotFoundStrategy
 
         $services = $e->getApplication()->getServiceManager();
         $translator = $services->get('translator');
-        $message = $translator->translate('Page not found', 'exceptions');
+        $message = $translator->translate('Page not found.', 'exceptions');
 
         switch ($renderer) {
             case MyErrorHandler::RENDERER_JSON :
