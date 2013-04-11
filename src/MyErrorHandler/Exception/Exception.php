@@ -27,7 +27,7 @@ class Exception extends SplException implements ExceptionInterface
 
     /**
      *
-     * @param strnig $message
+     * @param string $message
      * @param int    $httpCode
      * @param string $renderer
      * @param int    $code
@@ -36,7 +36,7 @@ class Exception extends SplException implements ExceptionInterface
     public function __construct($message = '', $httpCode = 500, $renderer = null)
     {
         $this->setHttpCode($httpCode);
-        
+
         if ($renderer) {
             $this->setRenderer($renderer);
         }

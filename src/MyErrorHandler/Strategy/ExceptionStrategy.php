@@ -53,9 +53,9 @@ class ExceptionStrategy extends ZendExceptionStrategy
         } else {
             $status_code = 500;
         }
-        
+
         $request = $e->getRequest();
-        
+
         if (!isset($renderer)) {
             $accept = $request->getHeader('Accept');
 
@@ -64,8 +64,8 @@ class ExceptionStrategy extends ZendExceptionStrategy
             } else {
                 $renderer = MyErrorHandler::RENDERER_HTML;
             }
-        }        
-        
+        }
+
         if ($renderer == MyErrorHandler::RENDERER_HTML && !$request->isXmlHttpRequest()) {
             // Only handle XHR requests if output is HTML
             return;
@@ -93,7 +93,8 @@ class ExceptionStrategy extends ZendExceptionStrategy
                 $variables = $e->getViewModel()->getVariables();
                 $model->setVariables($variables);
                 $model->setVariables(array(
-                            'message'   => $message,
+                            'exception' => $exception,
+                            'message'   => 'Si è verificato un errore',
                             'error'     => true
                         ))
                         ->setTemplate('error/plain')
