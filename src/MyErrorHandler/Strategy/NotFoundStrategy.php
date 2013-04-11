@@ -8,6 +8,7 @@
 namespace MyErrorHandler\Strategy;
 
 use Zend\EventManager\EventManagerInterface;
+use Zend\Http\Header\Accept as AcceptHeader;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\RouteNotFoundStrategy;
 use Zend\Stdlib\ResponseInterface;
@@ -78,7 +79,8 @@ class NotFoundStrategy extends RouteNotFoundStrategy
         $request = $e->getRequest();
         $accept = $request->getHeader('Accept');
 
-        if (0 === strpos($accept->getFieldValue(), 'application/json')) {
+        if ($accept instanceof AcceptHeader &&
+                0 === strpos($accept->getFieldValue(), 'application/json')) {
             $renderer = MyErrorHandler::RENDERER_JSON;
         } else {
             $renderer = MyErrorHandler::RENDERER_HTML;
