@@ -31,9 +31,11 @@ class Module
             // attach logger
             $sharedEvents->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH_ERROR,
                 function($e) use ($services) {
-                   if ($e->getParam('exception')){
-                       $services->get('Logger')->crit($e->getParam('exception'));
-                   }
+                    $exception = $e->getParam('exception');
+                    while ($exception) {
+                        $services->get('Logger')->crit($exception);
+                        $exception = $exception->getPrevious();
+                    }
                 }
             );
         }
