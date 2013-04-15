@@ -94,7 +94,7 @@ class ExceptionStrategy extends ZendExceptionStrategy
                 $model->setVariables($variables);
                 $model->setVariables(array(
                             'exception' => $exception,
-                            'message'   => 'Si è verificato un errore',
+                            'message'   => 'Si Ã¨ verificato un errore',
                             'error'     => true
                         ))
                         ->setTemplate('error/plain')
