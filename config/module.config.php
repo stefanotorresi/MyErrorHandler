@@ -4,8 +4,8 @@ namespace MyErrorHandler;
 
 return array(
     __NAMESPACE__ => array(
-        'log_exceptions' => true,
-        'log_file' => './data/logs/'.date('Y-m-d').'-error.log',
+        'log_exceptions' => false,
+        'log_file' => './data/logs/%s-error.log',
     ),
     'view_manager' => array(
         'not_found_template'       => 'error/404',

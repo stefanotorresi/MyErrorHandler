@@ -8,8 +8,10 @@ return array(
             $globalConfig = $services->get('config');
             $config = $globalConfig[__NAMESPACE__];
 
+            $logFile = sprintf($config['log_file'], date('Y-m-d'));
+
             $logger = new \Zend\Log\Logger;
-            $writer = new \Zend\Log\Writer\Stream($config['log_file']);
+            $writer = new \Zend\Log\Writer\Stream($logFile);
             $logger->addWriter($writer);
 
             return $logger;
