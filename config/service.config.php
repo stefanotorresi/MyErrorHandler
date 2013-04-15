@@ -4,6 +4,16 @@ namespace MyErrorHandler;
 
 return array(
     'factories' => array(
+        'Logger' => function($services){
+            $globalConfig = $services->get('config');
+            $config = $globalConfig[__NAMESPACE__];
+
+            $logger = new \Zend\Log\Logger;
+            $writer = new \Zend\Log\Writer\Stream($config['log_file']);
+            $logger->addWriter($writer);
+
+            return $logger;
+        },
         'MyErrorHandler\Strategy\ExceptionStrategy' => function ($services) {
             $config   = $services->get('config');
 

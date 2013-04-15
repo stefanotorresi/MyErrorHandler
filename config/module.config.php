@@ -3,6 +3,10 @@
 namespace MyErrorHandler;
 
 return array(
+    __NAMESPACE__ => array(
+        'log_exceptions' => true,
+        'log_file' => './data/logs/'.date('Y-m-d').'-error.log',
+    ),
     'view_manager' => array(
         'not_found_template'       => 'error/404',
         'template_map' => array(
