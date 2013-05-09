@@ -1,14 +1,14 @@
 <span class="error plain">
-    <?=$this->message?>
+    <?= $this->translate($this->message) ?>
     <?php if($this->stack_trace) : ?>
-    
-    <?php $uniqid = uniqid(); ?>
-    <br>
-    <a href="#st-<?=$uniqid?>" class="stack-trace">Stack trace</a>
-    <div class="hidden">
-        <pre id="st-<?=$uniqid?>" style="font-size: 11px;"><?=$this->stack_trace?></pre>
-    </div>
-    <script>$(function(){ if($.isFunction($.fn.fancybox)) $("a.stack-trace").fancybox(); });</script>
-    
+
+        <?php $uniqid = uniqid(); ?>
+        <br>
+        <a href="#st-<?= $uniqid ?>" class="stack-trace">Stack trace</a>
+        <div class="hidden">
+            <pre id="st-<?= $uniqid ?>" style="font-size: 11px;"><?=$this->stack_trace?></pre>
+        </div>
+        <script>$(function(){ if($.isFunction($.fn.fancybox)) $("a.stack-trace").fancybox(); });</script>
+
     <?php endif; ?>
 </span>
