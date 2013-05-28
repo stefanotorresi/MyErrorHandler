@@ -27,9 +27,8 @@ return array(
                 'type'          => 'gettext',
                 'base_dir'      => __DIR__ . '/../language',
                 'pattern'       => '%s.mo',
-                'text_domain'   => 'exceptions'
+                'text_domain'   => __NAMESPACE__
             ),
         ),
     ),
-
 );

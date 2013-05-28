@@ -26,9 +26,23 @@ return array(
 
             return $listener;
         },
-        'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
     ),
     'invokables' => array(
         'MyErrorHandler\Strategy\NotFoundStrategy' => 'MyErrorHandler\Strategy\NotFoundStrategy',
-    )
+    ),
+    'initializers' => array(
+        'TranslatorAwareStrategyInitializer' => function($instance, $services) {
+            if ( ! $instance instanceof Strategy\StrategyInterface ) {
+                return;
+            }
+
+            if (!$services->has('translator')) {
+                return;
+            }
+
+            $translator = $services->get('translator');
+
+            $instance->setTranslator($translator);
+        },
+    ),
 );

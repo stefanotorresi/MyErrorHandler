@@ -11,7 +11,7 @@ use Zend\Mvc\MvcEvent;
 
 class Module
 {
-
+    const TEXT_DOMAIN = __NAMESPACE__;
     const RENDERER_HTML = 'html';
     const RENDERER_JSON = 'json';
 

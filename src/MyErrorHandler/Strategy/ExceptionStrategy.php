@@ -7,18 +7,24 @@
 
 namespace MyErrorHandler\Strategy;
 
+use MyErrorHandler\Module as MyErrorHandler;
+use MyErrorHandler\Exception\Exception;
+use MyErrorHandler\Exception\ExceptionInterface;
 use Zend\Http\Response as HttpResponse;
+use Zend\I18n\Translator\Translator;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\ExceptionStrategy as ZendExceptionStrategy;
 use Zend\Stdlib\ResponseInterface;
-use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
-use MyErrorHandler\Module as MyErrorHandler;
-use MyErrorHandler\Exception\ExceptionInterface;
+use Zend\View\Model;
 
-class ExceptionStrategy extends ZendExceptionStrategy
+class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterface
 {
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
     /**
      *
      * @param MvcEvent $e
@@ -26,8 +32,8 @@ class ExceptionStrategy extends ZendExceptionStrategy
     public function prepareExceptionViewModel(MvcEvent $e)
     {
         // Do nothing if no error in the event
-        $error      = $e->getError();
-        if (empty($error)) {
+        $vars      = $e->getError();
+        if (empty($vars)) {
             return;
         }
 
@@ -37,7 +43,7 @@ class ExceptionStrategy extends ZendExceptionStrategy
             return;
         }
 
-        switch ($error) {
+        switch ($vars) {
             case Application::ERROR_CONTROLLER_NOT_FOUND:
             case Application::ERROR_CONTROLLER_INVALID:
             case Application::ERROR_ROUTER_NO_MATCH:
@@ -50,7 +56,9 @@ class ExceptionStrategy extends ZendExceptionStrategy
         if ($exception instanceof ExceptionInterface) {
             $status_code = $exception->getHttpCode();
             $renderer = $exception->getRenderer();
+            $message = $exception->getMessage();
         } else {
+            $message = Exception::DEFAULT_MESSAGE;
             $status_code = 500;
         }
 
@@ -71,34 +79,39 @@ class ExceptionStrategy extends ZendExceptionStrategy
             return;
         }
 
-        $services = $e->getApplication()->getServiceManager();
-        $translator = $services->get('translator');
-        $message = $translator->translate($exception->getMessage(), 'exceptions');
-
         switch ($renderer) {
             case MyErrorHandler::RENDERER_JSON :
-                $model = new JsonModel();
-                $error = array(
+                $model = new Model\JsonModel();
+
+                if ($this->translator) {
+                    $message = $this->translator->translate($message, MyErrorHandler::TEXT_DOMAIN);
+                }
+
+                $vars = array(
                     'code'  => $status_code,
                     'message'   => $message,
                 );
+
                 if ($this->displayExceptions()) {
-                    $error['stack_trace'] = $exception->getTraceAsString();
+                    $vars['stack_trace'] = $exception->getTraceAsString();
                 }
-                $model->setVariable('error', $error);
+
+                $model->setVariable('error', $vars);
+
                 break;
+
             case MyErrorHandler::RENDERER_HTML :
             default :
-                $model = new ViewModel();
-                $variables = $e->getViewModel()->getVariables();
-                $model->setVariables($variables);
+                $model = new Model\ViewModel();
+
                 $model->setVariables(array(
                             'exception' => $exception,
-                            'message'   => 'Si è verificato un errore',
+                            'message'   => $message,
                             'error'     => true
                         ))
                         ->setTemplate('error/plain')
                         ->setTerminal(true);
+
                 if ($this->displayExceptions()) {
                     $model->setVariable('stack_trace', $exception->getTraceAsString());
                 }
@@ -114,4 +127,11 @@ class ExceptionStrategy extends ZendExceptionStrategy
         $e->setResult($model);
     }
 
+    /**
+     * @param Translator $translator
+     */
+    public function setTranslator(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 }

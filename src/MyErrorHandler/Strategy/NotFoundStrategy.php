@@ -9,15 +9,21 @@ namespace MyErrorHandler\Strategy;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Header\Accept as AcceptHeader;
+use Zend\I18n\Translator\Translator;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\RouteNotFoundStrategy;
 use Zend\Stdlib\ResponseInterface;
-use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
+use Zend\View\Model;
 use MyErrorHandler\Module as MyErrorHandler;
 
-class NotFoundStrategy extends RouteNotFoundStrategy
+class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterface
 {
+    const DEFAULT_MESSAGE = 'Page not found.';
+
+    /**
+     * @var Translator
+     */
+    protected  $translator;
 
     /**
      *
@@ -91,21 +97,26 @@ class NotFoundStrategy extends RouteNotFoundStrategy
             return;
         }
 
-        $services = $e->getApplication()->getServiceManager();
-        $translator = $services->get('translator');
-        $message = $translator->translate('Page not found.', 'exceptions');
+        $message = self::DEFAULT_MESSAGE;
 
         switch ($renderer) {
             case MyErrorHandler::RENDERER_JSON :
-                $model = new JsonModel();
+                $model = new Model\JsonModel();
+
+                if ($this->translator) {
+                    $message = $this->translator->translate($message, MyErrorHandler::TEXT_DOMAIN);
+                }
+
                 $model->setVariable('error', array(
                     'code'      => $response->getStatusCode(),
                     'message'   => $message,
                 ));
+
                 break;
+
             case MyErrorHandler::RENDERER_HTML :
             default :
-                $model = new ViewModel;
+                $model = new Model\ViewModel;
                 $variables = $e->getViewModel()->getVariables();
                 $model->setVariables($variables);
                 $model->setVariables(array(
@@ -118,5 +129,13 @@ class NotFoundStrategy extends RouteNotFoundStrategy
 
         $e->setViewModel($model);
 
+    }
+
+    /**
+     * @param Translator $translator
+     */
+    public function setTranslator(Translator $translator)
+    {
+        $this->translator = $translator;
     }
 }

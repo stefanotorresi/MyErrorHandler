@@ -13,6 +13,8 @@ use MyErrorHandler\Module as MyErrorHandler;
 
 class Exception extends SplException implements ExceptionInterface
 {
+    const DEFAULT_MESSAGE = 'An error has occurred';
+
     /**
      *
      * @var int
@@ -28,12 +30,10 @@ class Exception extends SplException implements ExceptionInterface
     /**
      *
      * @param string $message
-     * @param int    $httpCode
+     * @param int $httpCode
      * @param string $renderer
-     * @param int    $code
-     * @param mixed  $previous
      */
-    public function __construct($message = '', $httpCode = 500, $renderer = null)
+    public function __construct($message = self::DEFAULT_MESSAGE, $httpCode = 500, $renderer = null)
     {
         $this->setHttpCode($httpCode);
 

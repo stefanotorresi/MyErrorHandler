@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-20 10:16+0100\n"
-"PO-Revision-Date: 2013-03-25 13:53+0100\n"
+"PO-Revision-Date: 2013-05-28 12:36+0100\n"
 "Last-Translator: Stefano Torresi <webdev@stefanotorresiit>\n"
 "Language-Team: \n"
 "Language: Italian\n"
@@ -27,3 +27,9 @@ msgstr "Pagina non trovata."
 
 msgid "Service Unavailable"
 msgstr "Servizio non disponibile"
+
+msgid "Bad Request"
+msgstr "Richiesta non corretta"
+
+msgid "An error has occurred"
+msgstr "Si è verificato un errore"
