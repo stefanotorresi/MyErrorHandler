@@ -7,9 +7,9 @@
 
 namespace MyErrorHandler\Exception;
 
-class BadRequestException extends Exception
+class NotFoundException extends Exception
 {
-    public function __construct($message = 'Bad Request', $http_code = 400)
+    public function __construct($message = 'Not Found', $http_code = 404)
     {
         parent::__construct($message, $http_code);
     }
