@@ -92,10 +92,6 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
                     'message'   => $message,
                 );
 
-                if ($this->displayExceptions()) {
-                    $vars['exception'] = $exception;
-                }
-
                 $model->setVariable('error', $vars);
 
                 break;
@@ -105,7 +101,6 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
                 $model = new Model\ViewModel();
 
                 $model->setVariables(array(
-                            'exception' => $exception,
                             'message'   => $message,
                             'error'     => true
                         ))
@@ -113,7 +108,7 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
                         ->setTerminal(true);
 
                 if ($this->displayExceptions()) {
-                    $model->setVariable('stack_trace', $exception->getTraceAsString());
+                    $model->setVariable('exception', $exception);
                 }
         }
 
