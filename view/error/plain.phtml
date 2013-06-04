@@ -1,12 +1,21 @@
 <span class="error plain">
     <?= $this->translate($this->message) ?>
-    <?php if($this->stack_trace) : ?>
+    <?php if(isset($this->exception) && $this->exception instanceof Exception) :
+        /** @var Exception $e */
+        $e = $this->exception;
+        ?>
 
         <?php $uniqid = uniqid(); ?>
         <br>
-        <a href="#st-<?= $uniqid ?>" class="stack-trace">Stack trace</a>
+        <a href="#st-<?= $uniqid ?>" class="stack-trace">Error details</a>
         <div class="hidden">
-            <pre id="st-<?= $uniqid ?>" style="font-size: 11px;"><?=$this->stack_trace?></pre>
+            <div id="st-<?= $uniqid ?>" style="font-size: 11px;">
+                <?php do { ?>
+                    <pre><?= get_class($e) ?>: <?= $e->getMessage() ?></pre>
+                    <pre><?= $e->getFile() ?>: <?= $e->getLine() ?></pre>
+                    <pre><?= $e->getTraceAsString() ?></pre>
+                <?php } while ($e = $e->getPrevious()) ; ?>
+            </div>
         </div>
         <script>$(function(){ if($.isFunction($.fn.fancybox)) $("a.stack-trace").fancybox(); });</script>
 

@@ -93,7 +93,7 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
                 );
 
                 if ($this->displayExceptions()) {
-                    $vars['stack_trace'] = $exception->getTraceAsString();
+                    $vars['exception'] = $exception;
                 }
 
                 $model->setVariable('error', $vars);
