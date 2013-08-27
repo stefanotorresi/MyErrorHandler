@@ -10,6 +10,7 @@ namespace MyErrorHandler\Strategy;
 use MyErrorHandler\Module as MyErrorHandler;
 use MyErrorHandler\Exception\Exception;
 use MyErrorHandler\Exception\ExceptionInterface;
+use Zend\Http\Request;
 use Zend\Http\Response as HttpResponse;
 use Zend\I18n\Translator\Translator;
 use Zend\Mvc\Application;
@@ -31,6 +32,13 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
      */
     public function prepareExceptionViewModel(MvcEvent $e)
     {
+        $request = $e->getRequest();
+
+        // Only handle http requests
+        if ( ! $request instanceof Request) {
+            return;
+        }
+
         // Do nothing if no error in the event
         $vars      = $e->getError();
         if (empty($vars)) {
@@ -61,8 +69,6 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
             $message = Exception::DEFAULT_MESSAGE;
             $status_code = 500;
         }
-
-        $request = $e->getRequest();
 
         if (!isset($renderer)) {
             $accept = $request->getHeader('Accept');

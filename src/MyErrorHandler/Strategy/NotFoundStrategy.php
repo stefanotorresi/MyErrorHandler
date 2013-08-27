@@ -9,6 +9,7 @@ namespace MyErrorHandler\Strategy;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Header\Accept as AcceptHeader;
+use Zend\Http\Response;
 use Zend\I18n\Translator\Translator;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\RouteNotFoundStrategy;
@@ -43,6 +44,7 @@ class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterfac
 
     /**
      * we may want to inform the view layer that we just have an error
+     * @todo refactor this
      *
      * @param  MvcEvent $e
      * @return void
@@ -52,7 +54,8 @@ class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterfac
         $error = $e->getError();
         $response = $e->getResponse();
 
-        if ( empty($error) && $response->getStatusCode() != 404) {
+        if ( ! $response instanceof Response ||
+            (empty($error) && $response->getStatusCode() != 404)) {
             return;
         }
 
@@ -69,7 +72,6 @@ class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterfac
      */
     public function prepareNotFoundViewModel(MvcEvent $e)
     {
-
         // Do nothing if the result is a response object
         $result = $e->getResult();
         if ($result instanceof ResponseInterface) {
@@ -77,8 +79,9 @@ class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterfac
         }
 
         $response = $e->getResponse();
-        if ($response->getStatusCode() != 404) {
-            // Only handle 404 responses
+
+        // Only handle http 404 responses
+        if ( ! $response instanceof Response || $response->getStatusCode() != 404) {
             return;
         }
 
