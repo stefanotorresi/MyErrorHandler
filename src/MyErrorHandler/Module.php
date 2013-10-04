@@ -7,9 +7,13 @@
 
 namespace MyErrorHandler;
 
+use Zend\ModuleManager\Feature;
 use Zend\Mvc\MvcEvent;
 
-class Module
+class Module implements
+    Feature\AutoloaderProviderInterface,
+    Feature\ConfigProviderInterface,
+    Feature\ServiceProviderInterface
 {
     const TEXT_DOMAIN = __NAMESPACE__;
     const RENDERER_HTML = 'html';
@@ -43,7 +47,16 @@ class Module
 
     public function getAutoloaderConfig()
     {
-        return include __DIR__ . '/../../config/autoloader.config.php';
+        return array(
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/../autoload_classmap.php'
+            ),
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__  => __DIR__ . '/../src/' . __NAMESPACE__,
+                ),
+            ),
+        );
     }
 
     public function getConfig()
