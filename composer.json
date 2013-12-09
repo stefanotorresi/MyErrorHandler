@@ -19,6 +19,11 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.x-dev"
+        }
+    },
     "autoload": {
         "psr-0": {
             "MyErrorHandler": "src/"
