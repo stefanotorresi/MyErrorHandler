@@ -11,20 +11,19 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Header\Accept as AcceptHeader;
 use Zend\Http\Response;
 use Zend\I18n\Translator\Translator;
+use Zend\I18n\Translator\TranslatorAwareInterface;
+use Zend\I18n\Translator\TranslatorAwareTrait;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\RouteNotFoundStrategy;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model;
 use MyErrorHandler\Module as MyErrorHandler;
 
-class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterface
+class NotFoundStrategy extends RouteNotFoundStrategy implements TranslatorAwareInterface
 {
-    const DEFAULT_MESSAGE = 'Page not found.';
+    use TranslatorAwareTrait;
 
-    /**
-     * @var Translator
-     */
-    protected  $translator;
+    const DEFAULT_MESSAGE = 'Page not found.';
 
     /**
      *
@@ -132,13 +131,5 @@ class NotFoundStrategy extends RouteNotFoundStrategy implements StrategyInterfac
 
         $e->setViewModel($model);
 
-    }
-
-    /**
-     * @param Translator $translator
-     */
-    public function setTranslator(Translator $translator)
-    {
-        $this->translator = $translator;
     }
 }

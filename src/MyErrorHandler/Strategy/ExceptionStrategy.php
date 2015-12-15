@@ -12,19 +12,17 @@ use MyErrorHandler\Exception\Exception;
 use MyErrorHandler\Exception\ExceptionInterface;
 use Zend\Http\Request;
 use Zend\Http\Response as HttpResponse;
-use Zend\I18n\Translator\Translator;
+use Zend\I18n\Translator\TranslatorAwareInterface;
+use Zend\I18n\Translator\TranslatorAwareTrait;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\ExceptionStrategy as ZendExceptionStrategy;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model;
 
-class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterface
+class ExceptionStrategy extends ZendExceptionStrategy implements TranslatorAwareInterface
 {
-    /**
-     * @var Translator
-     */
-    protected $translator;
+    use TranslatorAwareTrait;
 
     /**
      *
@@ -126,13 +124,5 @@ class ExceptionStrategy extends ZendExceptionStrategy implements StrategyInterfa
         $response->setStatusCode($status_code);
 
         $e->setResult($model);
-    }
-
-    /**
-     * @param Translator $translator
-     */
-    public function setTranslator(Translator $translator)
-    {
-        $this->translator = $translator;
     }
 }
